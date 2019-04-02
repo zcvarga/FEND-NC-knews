@@ -5,37 +5,46 @@ import { Link } from "@reach/router";
 
 class SingleArticleView extends Component {
     state = {
+        commentsOpened: false,
+        comments: [],
         article: null
     }
+
+
     getArticle = id => {
         const url = `https://dry-island-66406.herokuapp.com/api/articles/${id}`;
         axios.get(url).then(({ data: { article } }) => this.setState({ article: article }))
     }
-
-
+    getComments(id) {
+        const url = `https://dry-island-66406.herokuapp.com/api/articles/${id}/comments`;
+        axios.get(url).then(({ data: { comments } }) => this.setState({ comments: comments }))
+    }
 
     componentDidMount() {
         const { id } = this.props;
         this.getArticle(id);
+        this.getComments(id);
     }
 
     componentDidUpdate(prevProps) {
         const { id } = this.props;
         if (prevProps.id !== id) {
             this.getArticle(id);
+            this.getComments(id);
         }
 
     }
 
-
-    // article_id: 33
-    // author: "weegembump"
-    // body: "'SEAFOOD fraud is a serious global problem', begins a recent report from Oceana, an NGO. Reviewing over 200 studies in 55 countries, the report finds that one in five fish sold has been mislabelled. Although fish fraud is common early in the supply chain, most of it comes at the retail level. In 65% of cases, the motivation is economic—slippery restaurateurs frequently serve up cheaper fish than they advertise to cut costs. In America, Oceana has reported instances of tilapia being sold as the more expensive red snapper. Especially brazen fish criminals have invented new types of fish entirely. In Brazil, researchers were puzzled to find markets selling 'douradinha', ' non-existent species. Close inspection found that 60% of such fish were actually 'vulture' catfish, a relatively undesirable dish. Reports in America of catfish being substituted for more expensive fish date back to at least 2002; Oceana’s study suggests that the phenomenon is spreading."
-    // comment_count: "6"
-    // created_at: "2018-05-30T00:00:00.000Z"
-    // title: "Seafood substitutions are increasing"
-    // topic: "cooking"
-    // votes: 0
+    openComments() {
+        this.setState({
+            commentsOpened: true
+        })
+    }
+    closeComments() {
+        this.setState({
+            commentsOpened: false
+        })
+    }
 
     render() {
         console.log(this.state.article)
@@ -52,6 +61,15 @@ class SingleArticleView extends Component {
                 <p>{this.state.article.body}</p>
                 <p>Comments: {this.state.article.comment_count}</p>
                 <p>Created at: {this.state.article.created_at}</p>
+                {!this.state.commentsOpened ? <button onClick={() => this.openComments()}>Open comments</button> : <button onClick={() => this.closeComments()}>Close comments</button>}
+                {!this.state.commentsOpened ? <div></div> : <div>{this.state.comments.map(comment => {
+                    return (<div key={comment.comment_id}>
+                        <p>{comment.body}</p>
+                        <p>{comment.author}</p>
+                        <p>{comment.created_at}</p>
+                        <p>{comment.votes}</p>
+                    </div>)
+                })}</div>}
             </div>)
     }
 
