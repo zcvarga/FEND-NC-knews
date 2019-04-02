@@ -31,8 +31,8 @@ class Article extends Component {
     }
 
     render() {
-        console.log(this.state.comments)
-        console.log(this.state.commentsOpened)
+        // console.log(this.state.comments)
+        // console.log(this.state.commentsOpened)
         const { author, title, topic, id, votes, comments } = this.props;
         return (
 
@@ -43,7 +43,7 @@ class Article extends Component {
                 <p>Votes: {votes}</p>
                 <p>Comments: {comments}</p>
                 {!this.state.commentsOpened ? <button onClick={() => this.openComments()}>Open comments</button> : <button onClick={() => this.closeComments()}>Close comments</button>}
-                {!this.state.commentsOpened ? <div></div> : <div>{this.state.comments.map(comment => {
+                {!this.state.commentsOpened ? <div></div> : <div id='comments'>{this.state.comments.map(comment => {
                     return (<div key={comment.comment_id}>
                         <p>{comment.body}</p>
                         <p>{comment.author}</p>

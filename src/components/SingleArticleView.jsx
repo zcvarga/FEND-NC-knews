@@ -53,7 +53,7 @@ class SingleArticleView extends Component {
             <h1 className="dot one">.</h1><h1 className="dot two">.</h1><h1 className="dot three">.</h1>
         </div>
         )
-        else return (
+        else return (<div id='single-article-container'>
             <div className='article-view'>
                 <h3>{this.state.article.title}</h3>
                 <p>{this.state.article.author}</p>
@@ -70,7 +70,7 @@ class SingleArticleView extends Component {
                         <p>{comment.votes}</p>
                     </div>)
                 })}</div>}
-            </div>)
+            </div></div>)
     }
 
 
