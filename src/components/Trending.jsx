@@ -10,7 +10,7 @@ class Trending extends Component {
 
     getTrendingNews() {
 
-        const url = 'https://newsapi.org/v2/top-headlines?' + 'sources=bbc-news&' + 'apiKey=f65255c1ccfb4f67bbe491b32974df96';
+        const url = 'https://newsapi.org/v2/top-headlines?sources=bbc-news&apiKey=f65255c1ccfb4f67bbe491b32974df96';
         axios.get(url)
             .then(({ data: { articles } }) => {
                 this.setState({ topNews: articles })

@@ -12,7 +12,7 @@ class SingleTopicView extends Component {
     }
 
     componentDidMount() {
-
+        console.log('here')
         this.getArticlesByTopic();
     }
 
@@ -20,6 +20,7 @@ class SingleTopicView extends Component {
         const { slug, sort_by } = this.props;
 
         if (prevProps.slug !== slug || prevProps.sort_by !== sort_by) {
+            console.log('rerendering')
             this.getArticlesByTopic();
         }
 

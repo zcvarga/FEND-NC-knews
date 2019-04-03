@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Link } from "@reach/router";
+import Avatar from '@material-ui/core/Avatar';
+import { Delete } from '@material-ui/icons';
+import Voter from './Voter';
+
 
 
 class SingleArticleView extends Component {
@@ -26,7 +30,7 @@ class SingleArticleView extends Component {
         this.getComments(id);
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps, prevState) {
         const { id } = this.props;
         if (prevProps.id !== id) {
             this.getArticle(id);
@@ -34,7 +38,6 @@ class SingleArticleView extends Component {
         }
 
     }
-
     openComments() {
         this.setState({
             commentsOpened: true
@@ -44,6 +47,22 @@ class SingleArticleView extends Component {
         this.setState({
             commentsOpened: false
         })
+    }
+
+    deleteArticle() {
+        const { id } = this.props;
+        const url = `https://dry-island-66406.herokuapp.com/api/articles/${id}`;
+        axios.delete(url)
+            .then((response) => {
+                if (response.status === 200)
+                    console.log('successfully deleted')
+            })
+    }
+
+    updateVotes(value) {
+        const { id } = this.props;
+        const url = `https://dry-island-66406.herokuapp.com/api/articles/${id}`;
+        axios.patch(url, { inc_votes: value })
     }
 
     render() {
@@ -59,6 +78,7 @@ class SingleArticleView extends Component {
                 <p>{this.state.article.author}</p>
                 <p>{this.state.article.topic}</p>
                 <p>{this.state.article.body}</p>
+                <Voter votes={this.state.article.votes} id={this.props.id} />
                 <p>Comments: {this.state.article.comment_count}</p>
                 <p>Created at: {this.state.article.created_at}</p>
                 {!this.state.commentsOpened ? <button onClick={() => this.openComments()}>Open comments</button> : <button onClick={() => this.closeComments()}>Close comments</button>}
@@ -70,6 +90,9 @@ class SingleArticleView extends Component {
                         <p>{comment.votes}</p>
                     </div>)
                 })}</div>}
+                <Link to='/articles'><Avatar>
+                    <Delete onClick={() => this.deleteArticle()} />
+                </Avatar></Link>
             </div></div>)
     }
 

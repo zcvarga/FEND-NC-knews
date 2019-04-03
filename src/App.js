@@ -8,6 +8,8 @@ import Topiclist from './components/Topiclist'
 import HeadingTwo from './components/HeadingTwo';
 import SingleTopicView from './components/SingleTopicView';
 import SingleArticleView from './components/SingleArticleView';
+import Button from '@material-ui/core/Button';
+import NewArticle from './components/NewArticle';
 
 
 class App extends Component {
@@ -20,6 +22,11 @@ class App extends Component {
   setSortBy = (value) => {
     this.setState({ sort_by: value })
   }
+
+  setArticles = (articles) => {
+    this.setState({ articles: articles })
+  }
+
   getArticles = () => {
     const url = `https://dry-island-66406.herokuapp.com/api/articles?sort_by=${this.state.sort_by}`
     axios.get(url).then(({ data: { articles } }) => this.setState({ articles: articles }))
@@ -35,7 +42,7 @@ class App extends Component {
     this.getTopics();
   }
   componentDidUpdate(_, prevState) {
-    if (this.state.sort_by !== prevState.sort_by) {
+    if (this.state.sort_by !== prevState.sort_by || this.state.articles.length !== prevState.articles.length) {
       this.getArticles();
     }
 
@@ -47,11 +54,12 @@ class App extends Component {
     return (
       <div className="App">
         <h1 id='main-header'><Nav /></h1>
-        <HeadingTwo topics={this.state.topics} setSortBy={this.setSortBy} />
+        <HeadingTwo topics={this.state.topics} setSortBy={this.setSortBy} value={this.state.sort_by} />
         <Router>
           <Articlelist path='/articles' articles={this.state.articles} />
-          <SingleArticleView path='/articles/:id' />
-          <Topiclist path='/topics' topics={this.state.topics} />
+          <SingleArticleView path='/articles/:id' getArticles={this.state.getArticles} />
+          <NewArticle path='articles/new-article' />
+          <Topiclist path='/topics' topics={this.state.topics} getTopics={this.state.getTopics} />
           <SingleTopicView path='/topics/:slug/articles' sort_by={this.state.sort_by} />
         </Router>
       </div>
@@ -62,8 +70,12 @@ class App extends Component {
 const Nav = props => {
   return (
     <nav>
-      <Link className='link' to='/articles'>Articles</Link>
-      <Link className='link' to='/topics'>Topics</Link>
+      <Link to='/articles'>
+        <Button variant="outlined" >ARTICLES</Button>
+      </Link>
+      <Link to='/topics'>
+        <Button variant="outlined" >TOPICS</Button>
+      </Link>
 
     </nav>
   )

@@ -1,6 +1,7 @@
 import React from 'react';
 import Article from './Article';
 import Trending from './Trending';
+import Stuff from './Stuff';
 
 
 const Articlelist = (props) => {
@@ -13,6 +14,7 @@ const Articlelist = (props) => {
             })}
 
         </ul>
+        <Stuff />
     </div >)
 
 }

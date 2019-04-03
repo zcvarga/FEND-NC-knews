@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from "@reach/router";
 import axios from 'axios';
+import Button from '@material-ui/core/Button';
 
 class ArticleInTopic extends Component {
     state = {
@@ -45,7 +46,9 @@ class ArticleInTopic extends Component {
                     <p>{comment.votes}</p>
                 </div>)
             })}</div>}
-            <Link className='link' to={`/articles/${article_id}`} >Read article</Link>
+            <Link className='link' to={`/articles/${article_id}`} >
+                <Button variant="outlined" >READ ARTICLE</Button>
+            </Link>
         </li>)
     }
 }
