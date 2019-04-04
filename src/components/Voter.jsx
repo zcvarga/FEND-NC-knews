@@ -12,7 +12,7 @@ class Voter extends Component {
     }
 
     handleClick(value) {
-        console.log('value:', value)
+        // console.log('value:', value)
         if (value === 1) {
             this.setState({ upvoted: !this.state.upvoted })
             this.updateVotes(value);
@@ -30,13 +30,22 @@ class Voter extends Component {
     updateVotes(value) {
         const { id, type } = this.props;
         const newVotes = this.props.votes + value;
-        console.log('newVotes: ', newVotes)
-        let url = `https://dry-island-66406.herokuapp.com/api/articles/${id}`
+        // console.log('newVotes: ', newVotes)
+        let url = `https://dry-island-66406.herokuapp.com/api/${type}/${id}`
         this.setState({ votes: newVotes })
-        axios.patch(url, { inc_votes: value })
-            .then(({ data: { article } }) => {
-                this.setState({ votes: article.votes })
-            })
+
+        if (type === 'articles') {
+            axios.patch(url, { inc_votes: value })
+                .then(({ data: { article } }) => {
+                    this.setState({ votes: article.votes })
+                })
+        }
+        if (type === 'comments') {
+            axios.patch(url, { inc_votes: value })
+                .then(({ data: { comment } }) => {
+                    this.setState({ votes: comment.votes })
+                })
+        }
 
     }
 
@@ -44,7 +53,7 @@ class Voter extends Component {
 
     // }
     render() {
-        console.log('up', this.state.upvoted, 'down', this.state.downvoted, 'state: ', this.state.votes, 'props: ', this.props.votes)
+        // console.log('up', this.state.upvoted, 'down', this.state.downvoted, 'state: ', this.state.votes, 'props: ', this.props.votes)
         return (
             <> <Avatar><ThumbUp onClick={() => this.handleClick(1)} /></Avatar >
                 <p>{!this.state.upvoted && !this.state.downvoted ? this.props.votes : this.state.votes}</p>

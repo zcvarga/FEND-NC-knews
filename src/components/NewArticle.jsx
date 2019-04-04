@@ -29,7 +29,7 @@ class NewArticle extends Component {
         const url = 'https://dry-island-66406.herokuapp.com/api/articles';
         axios.post(url, this.state.articleToAdd).then(function ({ data: { article } }) {
             if (article) {
-                console.log(article, 'success')
+                // console.log(article, 'success')
                 navigate(`/articles/${article.article_id}`)
             }
 

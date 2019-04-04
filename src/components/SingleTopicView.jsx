@@ -12,7 +12,7 @@ class SingleTopicView extends Component {
     }
 
     componentDidMount() {
-        console.log('here')
+        // console.log('here')
         this.getArticlesByTopic();
     }
 
@@ -20,14 +20,14 @@ class SingleTopicView extends Component {
         const { slug, sort_by } = this.props;
 
         if (prevProps.slug !== slug || prevProps.sort_by !== sort_by) {
-            console.log('rerendering')
+            // console.log('rerendering')
             this.getArticlesByTopic();
         }
 
     }
 
     render() {
-        console.log(this.props.sort_by)
+        // console.log(this.props.sort_by)
         const { slug } = this.props;
         if (!this.state.articles) return (<div className="loading-dots">
             <h1 id='loading' >Loading</h1>
