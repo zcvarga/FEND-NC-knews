@@ -3,10 +3,10 @@ import axios from 'axios';
 import { Link } from "@reach/router";
 import Avatar from '@material-ui/core/Avatar';
 import { Delete } from '@material-ui/icons';
-import Voter from './Voter';
-import Commentlist from './CommentList';
-import AddComment from './AddComment';
-
+import Voter from '../../generic/components/Voter';
+import Commentlist from '../../comment/components/CommentList';
+import AddComment from '../../comment/components/AddComment';
+import Button from '@material-ui/core/Button';
 
 
 class SingleArticleView extends Component {
@@ -45,22 +45,6 @@ class SingleArticleView extends Component {
         })
     }
 
-    deleteArticle() {
-        const { id } = this.props;
-        const url = `https://dry-island-66406.herokuapp.com/api/articles/${id}`;
-        axios.delete(url)
-            .then((response) => {
-                if (response.status === 200)
-                    console.log('successfully deleted')
-            })
-    }
-
-    // updateVotes(value) {
-    //     const { id } = this.props;
-    //     const url = `https://dry-island-66406.herokuapp.com/api/articles/${id}`;
-    //     axios.patch(url, { inc_votes: value })
-    // }
-
     render() {
         if (!this.state.article) return (<div className="loading-dots">
             <h1 id='loading' >Loading</h1>
@@ -76,12 +60,16 @@ class SingleArticleView extends Component {
                 <Voter votes={this.state.article.votes} id={this.props.id} type='articles' />
                 <p>Comments: {this.state.article.comment_count}</p>
                 <p>Created at: {this.state.article.created_at}</p>
-                {!this.state.commentsOpened ? <button onClick={() => this.openComments()}>Open comments</button> : <button onClick={() => this.closeComments()}>Close comments</button>}
-                {!this.state.commentsOpened ? <div></div> : <Commentlist id={this.props.id} />}
+                {!this.state.commentsOpened ?
+                    <Button onClick={() => this.openComments()} variant="outlined">OPEN COMMENTS</Button>
+                    :
+                    <Button onClick={() => this.closeComments()} variant="outlined"> CLOSE COMMENTS</Button>}
+                {!this.state.commentsOpened ? <div></div> :
+                    <><AddComment id={this.props.id} setNewCommentCount={this.setNewCommentCount} />
+                        <Commentlist id={this.props.id} /> </>}
                 <Link to='/articles'><Avatar>
-                    <Delete onClick={() => this.deleteArticle()} />
+                    <Delete onClick={() => this.props.deleteArticle(this.props.id)} />
                 </Avatar></Link>
-                <AddComment id={this.props.id} />
             </div></div>)
     }
 

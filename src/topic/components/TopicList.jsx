@@ -4,7 +4,7 @@ import Button from '@material-ui/core/Button';
 import axios from 'axios';
 
 
-class Topiclist extends Component {
+class TopicList extends Component {
     state = {
         formOpened: false,
         topicToAdd: {
@@ -26,21 +26,14 @@ class Topiclist extends Component {
     }
 
     handleDescriptionChange(event) {
-        this.setState({ topicToAdd: { name: event.target.value, slug: this.state.topicToAdd.slug } })
+        this.setState({ topicToAdd: { description: event.target.value, slug: this.state.topicToAdd.slug } })
     }
     handleSlugChange(event) {
-        this.setState({ topicToAdd: { name: this.state.topicToAdd.description, slug: event.target.value } })
+        this.setState({ topicToAdd: { description: this.state.topicToAdd.description, slug: event.target.value } })
     }
 
     addTopic() {
-        const url = 'https://dry-island-66406.herokuapp.com/api/topics';
-        const self = this;
-        axios.post(url, this.state.topicToAdd).then(function (response) {
-            if (response.data.topic) {
-                console.log('reload page')
-                self.props.getTopics();
-            }
-        });
+        this.props.addTopic(this.state.topicToAdd);
         this.closeForm();
     }
 
@@ -72,4 +65,4 @@ class Topiclist extends Component {
 
 
 
-export default Topiclist;
+export default TopicList;

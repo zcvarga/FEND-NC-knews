@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import NewsItem from './NewsItem';
+
+
 class Trending extends Component {
 
     state = {

@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { Link } from "@reach/router";
-import axios from 'axios';
 import Button from '@material-ui/core/Button';
-import Commentlist from './CommentList';
+import Commentlist from '../../comment/components/CommentList';
+import Voter from '../../generic/components/Voter';
+import AddComment from '../../comment/components/AddComment';
 
 class ArticleInTopic extends Component {
     state = {
         commentsOpened: false,
-        // comments: []
     }
     openComments() {
         this.setState({
@@ -20,26 +20,23 @@ class ArticleInTopic extends Component {
             commentsOpened: false
         })
     }
-    // getComments(id) {
-    //     const url = `https://dry-island-66406.herokuapp.com/api/articles/${id}/comments`;
-    //     axios.get(url).then(({ data: { comments } }) => this.setState({ comments: comments }))
-    // }
-
-    // componentDidMount() {
-    //     const { article_id } = this.props;
-    //     this.getComments(article_id);
-    // }
 
     render() {
         const { article_id, author, title, topic, votes, comment_count, created_at } = this.props;
         return (<li className='flex-articles' key={article_id}>
             <h3>Title: {title}</h3>
+            <p>{created_at}</p>
             <p>Author: {author}</p>
             <p>Topic: {topic}</p>
-            <p>Votes: {votes}</p>
+            <Voter votes={votes} id={article_id} type='articles' />
             <p>Comments: {comment_count}</p>
-            {!this.state.commentsOpened ? <button onClick={() => this.openComments()}>Open comments</button> : <button onClick={() => this.closeComments()}>Close comments</button>}
-            {!this.state.commentsOpened ? <div></div> : <Commentlist id={this.props.article_id} />}
+            {!this.state.commentsOpened ?
+                <Button onClick={() => this.openComments()} variant="outlined">OPEN COMMENTS</Button>
+                :
+                <Button onClick={() => this.closeComments()} variant="outlined"> CLOSE COMMENTS</Button>}
+            {!this.state.commentsOpened ? <div></div> :
+                <><AddComment id={this.props.article_id} />
+                    <Commentlist id={this.props.article_id} /> </>}
             <Link className='link' to={`/articles/${article_id}`} >
                 <Button variant="outlined" >READ ARTICLE</Button>
             </Link>

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import Button from '@material-ui/core/Button';
-import { navigate } from '@reach/router';
 
 class NewArticle extends Component {
     state = {
@@ -25,15 +24,8 @@ class NewArticle extends Component {
         this.setState({ articleToAdd: { title: this.state.articleToAdd.title, body: this.state.articleToAdd.body, topic: this.state.articleToAdd.topic, author: event.target.value } })
     }
 
-    addArticle() {
-        const url = 'https://dry-island-66406.herokuapp.com/api/articles';
-        axios.post(url, this.state.articleToAdd).then(function ({ data: { article } }) {
-            if (article) {
-                // console.log(article, 'success')
-                navigate(`/articles/${article.article_id}`)
-            }
-
-        });
+    postArticle() {
+        this.props.postArticle(this.state.articleToAdd);
     }
 
     render() {
@@ -43,7 +35,7 @@ class NewArticle extends Component {
             <input type="text" placeholder='Topic' onChange={(event) => this.handleTopicChange(event)}></input>
             <input type="text" placeholder='Body' onChange={(event) => this.handleBodyChange(event)}></input>
 
-            <Button id='submit' variant="outlined" onClick={() => this.addArticle()}> SUBMIT </Button>
+            <Button id='submit' variant="outlined" onClick={() => this.postArticle()}> SUBMIT </Button>
             {/* <button className='flexitem' onClick={() => this.closeForm()}>Discard</button> */}
         </div>)
     }

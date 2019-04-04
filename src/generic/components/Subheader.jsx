@@ -7,7 +7,7 @@ import Button from '@material-ui/core/Button';
 import { Link } from "@reach/router";
 
 
-class HeadingTwo extends Component {
+class Subheader extends Component {
     // state = {
     //     sort_by: ''
     // }
@@ -41,4 +41,4 @@ class HeadingTwo extends Component {
 //     return value;
 // }
 
-export default HeadingTwo;
+export default Subheader;

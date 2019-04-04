@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import ArticleInTopic from './ArticleInTopic';
+import ArticleInTopic from '../../article/components/ArticleInTopic';
 
 class SingleTopicView extends Component {
     state = {
@@ -37,7 +37,7 @@ class SingleTopicView extends Component {
         else return (<ul className='flex-container-4' >
             {
                 this.state.articles.filter(article => article.topic === slug).map(({ article_id, author, title, topic, votes, comment_count, created_at }) => {
-                    return <ArticleInTopic article_id={article_id} author={author} title={title} topic={topic} votes={votes} comment_count={comment_count} created_at={created_at} />
+                    return <ArticleInTopic key={article_id} article_id={article_id} author={author} title={title} topic={topic} votes={votes} comment_count={comment_count} created_at={created_at} />
 
                 })
             }

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import Commentlist from './CommentList';
+// import Commentlist from './CommentList';
 import Button from '@material-ui/core/Button';
 
 
@@ -10,8 +10,7 @@ class AddComment extends Component {
         commentToAdd: {
             username: '',
             body: ''
-        },
-        childShouldUpdate: false
+        }
     }
     openForm() {
         this.setState({
@@ -35,20 +34,17 @@ class AddComment extends Component {
     addComment = () => {
         const { id } = this.props;
         const url = `https://dry-island-66406.herokuapp.com/api/articles/${id}/comments`;
-        const self = this;
         axios.post(url, this.state.commentToAdd).then(function (response) {
             if (response.data.comment) {
-                console.log('reload page')
-                // self.props.getComments(id);
-                self.setState({ childShouldUpdate: true })
+                console.log('successfully posted')
             }
-        });
+        })
+        this.props.setCommentCount(1)
         this.closeForm();
     }
 
 
     render() {
-        console.log(this.props.id)
         return (<>
             <h5 >
                 {
@@ -57,7 +53,6 @@ class AddComment extends Component {
                         <input type="text" placeholder="Username" onChange={(event) => this.handleUsernameChange(event)}></input>
                         <Button variant="outlined" onClick={() => this.addComment()}>SUBMIT</Button>
                         <Button variant="outlined" onClick={() => this.closeForm()}>DISCARD</Button>
-                        <Commentlist id={this.props.id} update={this.childShouldUpdate} />
                     </>
                 }
             </h5>
