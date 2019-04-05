@@ -13,11 +13,17 @@ import NewArticle from './components/NewArticle';
 
 
 class App extends Component {
-  state = {
-    articles: [],
-    topics: [],
-    sort_by: ''
+  constructor() {
+    super();
+    this.state = {
+      articles: [],
+      topics: [],
+      sort_by: '',
+      user: null
+    }
+    this.getArticles = this.getArticles.bind(this);
   }
+
 
   setSortBy = (value) => {
     this.setState({ sort_by: value })
@@ -37,6 +43,26 @@ class App extends Component {
     axios.get(url).then(({ data: { topics } }) => this.setState({ topics: topics }))
   }
 
+  logIn = (username, password) => {
+    if (!(['tickle122', 'grumpy19', 'happyamy2016', 'cooljmessy', 'weegembump', 'jessjelly'].includes(username))) {
+      window.alert('please enter existing username');
+      return;
+    }
+    if (!password) {
+      window.alert('please enter password');
+      return;
+    }
+    this.setState({
+      user: username
+    })
+  }
+
+  logOut = () => {
+    this.setState({
+      user: null
+    })
+  }
+
   componentDidMount() {
     this.getArticles()
     this.getTopics();
@@ -45,22 +71,33 @@ class App extends Component {
     if (this.state.sort_by !== prevState.sort_by || this.state.articles.length !== prevState.articles.length) {
       this.getArticles();
     }
-
   }
 
   render() {
-    // console.log(this.state.sort_by)
+    console.log(this.state)
     // console.log(this.state.articles)
     return (
       <div className="App">
-        <h1 id='main-header'><Nav /></h1>
+        <h1 id='main-header'><Nav />
+          <div className='topic-header'>
+            {
+              this.state.user ? <Button variant="outlined" onClick={() => this.logOut()}>LOG OUT</Button>
+                :
+                <>
+                  <input type="text" placeholder="Login" onChange={(event) => this.setState({ username: event.target.value })}></input>
+                  <input type="text" placeholder="Password" onChange={(event) => this.setState({ password: event.target.value })}></input>
+                  <Button variant="outlined" onClick={() => this.logIn(this.state.username, this.state.password)}>LOG IN</Button>
+                </>
+            }
+          </div>
+        </h1>
         <HeadingTwo topics={this.state.topics} setSortBy={this.setSortBy} value={this.state.sort_by} />
         <Router>
-          <Articlelist path='/articles' articles={this.state.articles} />
-          <SingleArticleView path='/articles/:id' getArticles={this.state.getArticles} />
-          <NewArticle path='articles/new-article' />
-          <Topiclist path='/topics' topics={this.state.topics} getTopics={this.state.getTopics} />
-          <SingleTopicView path='/topics/:slug/articles' sort_by={this.state.sort_by} />
+          <Articlelist path='/articles' articles={this.state.articles} getArticles={this.getArticles} user={this.state.user} />
+          <SingleArticleView path='/articles/:id' getArticles={this.getArticles} user={this.state.user} />
+          <NewArticle path='articles/new-article' user={this.state.user} topics={this.state.topics} />
+          <Topiclist path='/topics' topics={this.state.topics} getTopics={this.state.getTopics} user={this.state.user} />
+          <SingleTopicView path='/topics/:slug/articles' sort_by={this.state.sort_by} user={this.state.user} />
         </Router>
       </div>
     );

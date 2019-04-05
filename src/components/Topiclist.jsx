@@ -5,12 +5,16 @@ import axios from 'axios';
 
 
 class Topiclist extends Component {
-    state = {
-        formOpened: false,
-        topicToAdd: {
-            description: '',
-            slug: ''
+    constructor() {
+        super();
+        this.state = {
+            formOpened: false,
+            topicToAdd: {
+                description: '',
+                slug: ''
+            }
         }
+        this.addTopic = this.addTopic.bind(this);
     }
 
     openForm() {
@@ -26,25 +30,28 @@ class Topiclist extends Component {
     }
 
     handleDescriptionChange(event) {
-        this.setState({ topicToAdd: { name: event.target.value, slug: this.state.topicToAdd.slug } })
+        this.setState({ topicToAdd: { decription: event.target.value, slug: this.state.topicToAdd.slug } })
     }
     handleSlugChange(event) {
-        this.setState({ topicToAdd: { name: this.state.topicToAdd.description, slug: event.target.value } })
+        this.setState({ topicToAdd: { description: this.state.topicToAdd.description, slug: event.target.value } })
     }
 
     addTopic() {
+        console.log(this.state);
         const url = 'https://dry-island-66406.herokuapp.com/api/topics';
-        const self = this;
         axios.post(url, this.state.topicToAdd).then(function (response) {
             if (response.data.topic) {
                 console.log('reload page')
-                self.props.getTopics();
+                this.props.getTopics();
             }
         });
         this.closeForm();
     }
 
     render() {
+        const topicsToShow = this.props.topics.length ? this.props.topics.map(({ slug, description }) => {
+            return <Topic key={slug} slug={slug} description={description} />
+        }) : <h1>No articles found</h1>
         return (<div >
             <h2 className='topic-header'>
                 {
@@ -57,10 +64,7 @@ class Topiclist extends Component {
                 }
             </h2>
             <ul className='flex-container-3'>
-                {this.props.topics.map(({ slug, description }) => {
-                    return <Topic key={slug} slug={slug} description={description} />
-
-                })}
+                {topicsToShow}
 
             </ul>
         </div >)

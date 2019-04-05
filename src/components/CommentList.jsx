@@ -5,11 +5,6 @@ import Comment from './Comment';
 
 class Commentlist extends Component {
 
-    state = {
-        comments: [],
-
-    }
-
     // openForm() {
     //     this.setState({
     //         formOpened: true
@@ -22,28 +17,17 @@ class Commentlist extends Component {
     //     })
     // }
 
-    getComments(id) {
-        const url = `https://dry-island-66406.herokuapp.com/api/articles/${id}/comments`;
-        axios.get(url).then(({ data: { comments } }) => this.setState({ comments: comments }))
-    }
+
 
     deleteComment = (comment_id) => {
         const url = `https://dry-island-66406.herokuapp.com/api/comments/${comment_id}`;
         let self = this;
-        const newComments = this.state.comments.filter(comment => comment.comment_id !== comment_id)
         axios.delete(url)
             .then((response) => {
                 if (response.status === 204)
                     console.log('successfully deleted')
-                self.setState({ comments: newComments })
+                this.props.getComments(this.props.id);
             })
-    }
-    componentDidUpdate(prevProps, prevState) {
-        const { id } = this.props;
-
-        if (this.props.update !== prevProps.update) {
-            this.getComments(id);
-        }
     }
 
     // handleUsernameChange(event) {
@@ -70,7 +54,7 @@ class Commentlist extends Component {
 
     componentDidMount() {
         const { id } = this.props;
-        this.getComments(id);
+        this.props.getComments(id);
     }
     // componentDidUpdate(prevProps, prevState) { //delete one comment instead from state
     //     const { id } = this.props;
@@ -82,8 +66,6 @@ class Commentlist extends Component {
 
 
     render() {
-        console.log(this.state.comments)
-        console.log('state', this.state)
         return (<>
             {/* <h5 >
                 {
@@ -97,8 +79,8 @@ class Commentlist extends Component {
             </h5> */}
 
 
-            <ul id='comments'>{this.state.comments.map(({ comment_id, body, author, created_at, votes }) => {
-                return <Comment comment_id={comment_id} body={body} author={author} created_at={created_at} votes={votes} deleteComment={this.deleteComment} />
+            <ul>{this.props.comments && this.props.comments.map(({ comment_id, body, author, created_at, votes }) => {
+                return <Comment key={this.props.user + comment_id} comment_id={comment_id} body={body} author={author} created_at={created_at} votes={votes} deleteComment={this.deleteComment} getComments={this.props.getComments} id={this.props.id} user={this.props.user} />
             })}</ul></>)
 
     }
