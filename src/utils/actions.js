@@ -7,10 +7,11 @@ const receiveArticles = (articles) => ({
 })
 
 export const getArticles = () => (dispatch, getState) => {
+    console.log(getState().state);
     dispatch({
         type: actionTypes.REQUEST_ARTICLES,
         method: 'get',
-        endpoint: `/articles?sort_by=${getState().state.articlesSortingBy}`
+        endpoint: `/articles?sort_by=${getState().state.get('articlesSortingBy') || ''}`
     }).then(response => {
         if (response.data && response.data.articles) {
             dispatch(receiveArticles(response.data.articles));

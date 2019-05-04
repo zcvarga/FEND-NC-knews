@@ -31,6 +31,7 @@ class Main extends React.Component {
                 <Subheader topics={topics} setSortBy={() => setSortBy()} value={articlesSortingBy} />
                 <Router>
                     <ArticleList path='/articles' articles={articles} />
+                    <ArticleList path='/' articles={articles} />
                     <SingleArticleView path='/articles/:id' getArticles={() => getArticles()} />
                     <NewArticle path='articles/new-article' />
                     <TopicList path='/topics' topics={topics} getTopics={() => getTopics()} />

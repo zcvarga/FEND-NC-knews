@@ -7,9 +7,9 @@ import {
 } from '../../utils/actions';
 
 const mapStateToProps = state => ({
-    articles: state.state.getIn(['state', 'articles']) || null,
-    topics: state.state.getIn(['state', 'topics']),
-    articlesSortingBy: state.state.getIn(['state', 'articlesSortingBy']) || '',
+    articles: state.state.get('articles') || null,
+    topics: state.state.get('topics'),
+    articlesSortingBy: state.state.get('articlesSortingBy') || '',
 });
 
 const mapDispatchToProps = dispatch => ({
