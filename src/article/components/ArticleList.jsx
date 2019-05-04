@@ -15,7 +15,6 @@ const ArticleList = (props) => {
             {props.articles.map(({ article_id, author, title, topic, votes, comment_count, created_at }) => {
                 return <Article key={article_id} author={author} title={title} topic={topic} id={article_id} votes={votes} comments={props.comments ? props.comments[article_id] : null} commentCount={comment_count} />
             })}
-
         </ul>
         <Stuff />
     </div >)

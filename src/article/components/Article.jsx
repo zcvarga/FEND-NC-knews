@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from "@reach/router";
 import Button from '@material-ui/core/Button';
 import Voter from '../../generic/components/Voter';
-import Commentlist from '../../comment/containers/CommentListContainer';
+import CommentList from '../../comment/containers/CommentListContainer';
 import AddComment from '../../comment/components/AddComment';
 
 
@@ -31,14 +31,10 @@ class Article extends Component {
                 <p>Comments: {comments || commentCount}</p>
                 <Button onClick={() => this.toggleComments()} variant="outlined">{this.state.commentsOpened ? 'CLOSE COMMENTS' : 'OPEN COMMENTS'}</Button>
                 {this.state.commentsOpened ? <><AddComment id={id} />
-                    <Commentlist id={id} /> </> : null}
+                    <CommentList id={id} /> </> : null}
                 <Link to={`/articles/${id}`}><Button variant="outlined">
                     READ ARTICLE
                 </Button></Link>
-
-
-
-
             </li >)
     }
 }

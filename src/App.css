@@ -109,7 +109,7 @@ body{
   border-radius: 5px;
   background-color: white;
   /* width: 60%; */
- 
+
 #comments {
   width:650px;
 }
@@ -119,9 +119,9 @@ body{
 } */
 
 .flex-trending {
-  
+
   padding-bottom: 5px;
-  
+
 }
 
 /* .flex-trending + .flex-trending + .flex-trending + .flex-trending + .flex-trending {
@@ -142,13 +142,13 @@ body{
 }
 
 .image {
-  
+
     border-radius: 4px;
     /* width:  200px;
     height: 200px; */
     max-width: 100%;
     object-fit: contain;
-  
+
 }
 
 .title{
@@ -196,7 +196,7 @@ body{
   opacity: 0;
   animation: showHideDot 2.5s ease-in-out infinite;
 
- 
+
 }
 .one { animation-delay: 0.0s; }
 .two { animation-delay: 0.15s; }
@@ -249,7 +249,7 @@ body{
 button {
   background-color: white;
   color: black;
-  border: 2px solid #b2b2b2; 
+  border: 2px solid #b2b2b2;
   border-radius: 5px;
 }
 
@@ -260,7 +260,7 @@ button {
   /* text-align: center;  */
   text-decoration: none;
   /* display: inline-block;
-  border: 2px solid #b2b2b2; 
+  border: 2px solid #b2b2b2;
   border-radius: 5px;
   margin: 3px; */
 }
@@ -318,7 +318,7 @@ display: contents;
   grid-template-areas: "empty-3 topic header empty" "votes main main empty" "empty-2 comments comments read-article";
 }
 
-.topic { 
+.topic {
   grid-area: topic;
   justify-self: start;
   align-self: start;
@@ -326,21 +326,21 @@ display: contents;
   padding-top: 5px;
   font-size: 75%}
 
-.header { 
-  grid-area: header; 
+.header {
+  grid-area: header;
   justify-self: start;
   align-self: start;
   margin-top: 0px;
   padding-top: 5px;
   font-size: 75% }
 
-.main { 
-  grid-area: main; 
+.main {
+  grid-area: main;
   align-self: start;
   justify-self: start;
   margin-top: 0px; }
 
-.comments { 
+.comments {
   grid-area: comments;
   align-self: stretch; }
 
@@ -348,13 +348,13 @@ display: contents;
 
 .empty-2 { grid-area: empty-2; }
 
-.read-article { 
-  grid-area: read-article; 
+.read-article {
+  grid-area: read-article;
   align-self: stretch; }
 
 .empty-3 { grid-area: empty-3; }
 
-.votes { 
+.votes {
   grid-area: votes;
   align-self: start;
   padding: 5px;
@@ -366,7 +366,7 @@ display: contents;
   padding: 5px !important;
   height: 40px;
   font-size: 70%;
- 
+
   }
   #read-button {
   padding: 5px !important;
@@ -395,34 +395,34 @@ display: contents;
     grid-template-rows: 0.4fr 2.8fr 0.4fr;
     grid-template-areas: "empty-1a comment-header delete-comment" "comment-votes comment-body empty-1c" "empty-1b empty-1b empty-1c";
   }
-  
-  .comment-body { 
+
+  .comment-body {
     grid-area: comment-body;
     align-self: start;
     justify-self: start;
-    margin-top: 0px; 
+    margin-top: 0px;
 
   }
-  
-  .comment-votes { 
+
+  .comment-votes {
     grid-area: comment-votes;
     align-self: center;
     padding: 5px;
     justify-self: center;
     font-size: 75%
   }
-  
-  .comment-header { 
+
+  .comment-header {
     grid-area: comment-header;
     justify-self: start;
     align-self: start;
     margin-top: 0px;
     padding-top: 5px;
-    font-size: 75% 
+    font-size: 75%
   }
-  
+
   .empty-1a { grid-area: empty-1a; }
-  
+
   .empty-1b { grid-area: empty-1b; }
 
   .delete-comment { grid-area: delete-comment; }
@@ -437,25 +437,23 @@ display: contents;
     grid-template-rows: 0.4fr 0.4fr 3.3fr 0.5fr;
     grid-template-areas: "empty-12 topic-article header-article-single delete-article" "empty-12 article-title article-title empty-11" "voting main-body main-body empty-11" "empty-13 comments-single-article comments-single-article empty-11";
   }
-  
+
   .voting { grid-area: voting; }
-  
+
   .main-body { grid-area: main-body; }
-  
+
   .article-title { grid-area: article-title; }
-  
+
   .topic-article { grid-area: topic-article; }
-  
+
   .header-article-single { grid-area: header-article-single; }
-  
+
   .delete-article { grid-area: delete-article; }
-  
+
   .empty-11 { grid-area: empty-11; }
-  
+
   .empty-12 { grid-area: empty-12; }
-  
+
   .comments-single-article { grid-area: comments-single-article; }
-  
+
   .empty-13 { grid-area: empty-13; }
-
-

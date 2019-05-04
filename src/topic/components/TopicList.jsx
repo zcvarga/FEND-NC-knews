@@ -5,13 +5,17 @@ import axios from 'axios';
 
 
 class TopicList extends Component {
-    state = {
+  constructor(props) {
+    super(props);
+    this.state = {
         formOpened: false,
         topicToAdd: {
             description: '',
             slug: ''
         }
-    }
+      }
+      this.addTopic = this.addTopic.bind(this);
+  }
 
     openForm() {
         this.setState({
@@ -26,7 +30,7 @@ class TopicList extends Component {
     }
 
     handleDescriptionChange(event) {
-        this.setState({ topicToAdd: { description: event.target.value, slug: this.state.topicToAdd.slug } })
+        this.setState({ topicToAdd: { decription: event.target.value, slug: this.state.topicToAdd.slug } })
     }
     handleSlugChange(event) {
         this.setState({ topicToAdd: { description: this.state.topicToAdd.description, slug: event.target.value } })
@@ -38,6 +42,9 @@ class TopicList extends Component {
     }
 
     render() {
+        const topicsToShow = this.props.topics.length ? this.props.topics.map(({ slug, description }) => {
+            return <Topic key={slug} slug={slug} description={description} />
+        }) : <h1>No articles found</h1>
         return (<div >
             <h2 className='topic-header'>
                 {
@@ -50,10 +57,7 @@ class TopicList extends Component {
                 }
             </h2>
             <ul className='flex-container-3'>
-                {this.props.topics.map(({ slug, description }) => {
-                    return <Topic key={slug} slug={slug} description={description} />
-
-                })}
+                {topicsToShow}
 
             </ul>
         </div >)

@@ -4,15 +4,21 @@ import { Link } from "@reach/router";
 import Avatar from '@material-ui/core/Avatar';
 import { Delete } from '@material-ui/icons';
 import Voter from '../../generic/components/Voter';
-import Commentlist from '../../comment/components/CommentList';
+import CommentList from '../../comment/components/CommentList';
 import AddComment from '../../comment/components/AddComment';
 import Button from '@material-ui/core/Button';
 
 
 class SingleArticleView extends Component {
-    state = {
-        commentsOpened: false,
-        article: null
+    constructor() {
+        super();
+        this.state = {
+            commentsOpened: false,
+            article: null,
+            comments: []
+        }
+        this.getComments = this.getComments.bind(this);
+        this.deleteArticle = this.deleteArticle.bind(this);
     }
 
 
@@ -21,19 +27,16 @@ class SingleArticleView extends Component {
         axios.get(url).then(({ data: { article } }) => this.setState({ article: article }))
     }
 
+    getComments(id) {
+        const url = `https://dry-island-66406.herokuapp.com/api/articles/${id}/comments`;
+        axios.get(url).then(({ data: { comments } }) => this.setState({ comments: comments }))
+    }
+
     componentDidMount() {
         const { id } = this.props;
         this.getArticle(id);
     }
 
-    componentDidUpdate(prevProps, prevState) {
-        const { id } = this.props;
-        if (prevProps.id !== id) {
-            this.getArticle(id);
-            this.getComments(id);
-        }
-
-    }
     openComments() {
         this.setState({
             commentsOpened: true
@@ -44,6 +47,32 @@ class SingleArticleView extends Component {
             commentsOpened: false
         })
     }
+
+    deleteArticle() {
+        console.log(this.props);
+        if (!this.props.user) {
+            window.alert('You are not logged in');
+            return;
+        }
+        if (this.props.user !== this.state.article.author) {
+            window.alert('Not permitted. You can delete only your articles');
+            return;
+        }
+        const { id } = this.props;
+        const url = `https://dry-island-66406.herokuapp.com/api/articles/${id}`;
+        axios.delete(url)
+            .then((response) => {
+                if (response.status === 200)
+                    console.log('successfully deleted')
+                this.props.getArticles();
+            })
+    }
+
+    // updateVotes(value) {
+    //     const { id } = this.props;
+    //     const url = `https://dry-island-66406.herokuapp.com/api/articles/${id}`;
+    //     axios.patch(url, { inc_votes: value })
+    // }
 
     render() {
         if (!this.state.article) return (<div className="loading-dots">
@@ -58,17 +87,16 @@ class SingleArticleView extends Component {
                 <p>{this.state.article.topic}</p>
                 <p>{this.state.article.body}</p>
                 <Voter votes={this.state.article.votes} id={this.props.id} type='articles' />
-                <p>Comments: {this.state.article.comment_count}</p>
+                <p>Comments: {this.state.comments.length || this.state.article.comment_count}</p>
                 <p>Created at: {this.state.article.created_at}</p>
                 {!this.state.commentsOpened ?
-                    <Button onClick={() => this.openComments()} variant="outlined">OPEN COMMENTS</Button>
-                    :
-                    <Button onClick={() => this.closeComments()} variant="outlined"> CLOSE COMMENTS</Button>}
-                {!this.state.commentsOpened ? <div></div> :
-                    <><AddComment id={this.props.id} setNewCommentCount={this.setNewCommentCount} />
-                        <Commentlist id={this.props.id} /> </>}
+                    <Button variant="outlined" onClick={() => this.openComments()}>OPEN COMMENTS</Button> :
+                    <Button variant="outlined" onClick={() => this.closeComments()}>CLOSE COMMENTS</Button>}
+                {!this.state.commentsOpened ? <div></div> : <>
+                    <AddComment id={this.props.id} getComments={this.getComments} comments={this.state.comments} user={this.props.user} />
+                    <CommentList id={this.props.id} getComments={this.getComments} comments={this.state.comments} user={this.props.user} /> </>}
                 <Link to='/articles'><Avatar>
-                    <Delete onClick={() => this.props.deleteArticle(this.props.id)} />
+                    <Delete onClick={() => this.deleteArticle()} className='delete' />
                 </Avatar></Link>
             </div></div>)
     }

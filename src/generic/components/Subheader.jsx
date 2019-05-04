@@ -8,12 +8,7 @@ import { Link } from "@reach/router";
 
 
 class Subheader extends Component {
-    // state = {
-    //     sort_by: ''
-    // }
-    // handleChange = event => {
-    //     this.setState({ [event.target.sort_by]: event.target.value });
-    // };
+
     render() {
         return (<div>
             <h2 id='second-header'>
