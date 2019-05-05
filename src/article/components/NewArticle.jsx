@@ -8,7 +8,7 @@ class NewArticle extends Component {
         articleToAdd: {
             title: '',
             body: '',
-            topic: this.props.topics ? this.props.topics[0].slug : '',
+            topic: (this.props.topics && this.props.topics[0]) ? this.props.topics[0].slug : '',
         }
     }
 
@@ -27,28 +27,20 @@ class NewArticle extends Component {
             window.alert('You are not logged in');
             return;
         }
-        console.log(this.props.user);
-        const url = 'https://dry-island-66406.herokuapp.com/api/articles';
-        axios.post(url, { title: this.state.articleToAdd.title, body: this.state.articleToAdd.body, topic: this.state.articleToAdd.topic, author: this.props.user }).then(function ({ data: { article } }) {
-            if (article) {
-                // console.log(article, 'success')
-                navigate(`/articles/${article.article_id}`)
-            }
-
-        });
+        this.props.postArticle(this.state.articleToAdd);
     }
 
     render() {
-        console.log(this.props.user)
+        console.log(this.props);
         return (<div>
             <input type="text" placeholder='Title' onChange={(event) => this.handleTitleChange(event)}></input>
-            <input type="text" placeholder={this.props.user} disabled={true}></input>
+            <input type="text" placeholder={this.props.user ? this.props.user.username : 'Please log in'} disabled={true}></input>
             <select placeholder='Topic' onChange={(event) => this.handleTopicChange(event)}>
                 {this.props.topics && this.props.topics.map(topic => <option value={topic.slug}>{topic.description}</option>)}
             </select>
             <input type="text" placeholder='Body' onChange={(event) => this.handleBodyChange(event)}></input>
 
-            <Button id='submit' variant="outlined" onClick={() => this.postArticle()}> SUBMIT </Button>
+            <Button id='submit' variant="outlined" onClick={() => this.addArticle()}> SUBMIT </Button>
             {/* <button className='flexitem' onClick={() => this.closeForm()}>Discard</button> */}
         </div>)
     }

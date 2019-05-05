@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import { Link } from "@reach/router";
 import Button from '@material-ui/core/Button';
 import CommentList from '../../comment/components/CommentList';
-import AddComment from '../../comment/components/AddComment';
+import AddComment from '../../comment/containers/AddCommentContainer';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import Voter from '../../generic/components/Voter';
+import Voter from '../../generic/containers/VoterContainer';
 import axios from 'axios';
 
 class ArticleInTopic extends Component {
@@ -20,8 +20,12 @@ class ArticleInTopic extends Component {
             scroll: 'paper',
         }
         this.getComments = this.getComments.bind(this);
-
     }
+
+    componentDidMount() {
+      this.props.getComments(this.props.id);
+    }
+
 
     openComments() {
         this.setState({
@@ -32,13 +36,13 @@ class ArticleInTopic extends Component {
     closeComments() {
         this.setState({
             commentsOpened: false
-        })
+        });
     }
 
     getComments(id) {
-        const url = `https://dry-island-66406.herokuapp.com/api/articles/${id}/comments`;
-        axios.get(url).then(({ data: { comments } }) => this.setState({ comments: comments }))
+        this.props.getComments(id);
     }
+
     handleClickOpen = scroll => () => {
         this.setState({ open: true, scroll });
     };
@@ -82,7 +86,6 @@ class ArticleInTopic extends Component {
                     </DialogActions>
                 </Dialog>
             </div>
-
         </li>)
     }
 }

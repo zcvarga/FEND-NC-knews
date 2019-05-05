@@ -28,39 +28,17 @@ class Voter extends Component {
         if (value === 1) {
             this.setState({ voted: true })
             this.updateVotes(1);
-
         }
         if (value === -1) {
             this.setState({ voted: true })
             this.updateVotes(-1);
         }
-
-
     }
-
 
     updateVotes(value) {
-        const { id, type } = this.props;
-        let url = `https://dry-island-66406.herokuapp.com/api/${type}/${id}`
-
-        if (type === 'articles') {
-            axios.patch(url, { inc_votes: value })
-                .then(({ data: { article } }) => {
-                    this.setState({ votes: article.votes })
-                })
-        }
-        if (type === 'comments') {
-            axios.patch(url, { inc_votes: value })
-                .then(({ data: { comment } }) =>
-                    this.setState({ votes: comment.votes })
-                )
-        }
-
+        this.props.updateVotes(this.props.type, this.props.id, value);
     }
 
-    // componentDidUpdate(_, prevState) {
-
-    // }
     render() {
         const { type } = this.props;
         // console.log('up', this.state.upvoted, 'down', this.state.downvoted, 'state: ', this.state.votes, 'props: ', this.props.votes)
@@ -72,6 +50,6 @@ class Voter extends Component {
 
     }
 }
-//  
+//
 
 export default Voter;

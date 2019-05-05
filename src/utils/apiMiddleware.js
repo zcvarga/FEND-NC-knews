@@ -3,11 +3,15 @@ import * as actionTypes from './actionTypes';
 
 const thunkActionTypes = [
     actionTypes.REQUEST_ARTICLES,
+    actionTypes.REQUEST_SINGLE_ARTICLE,
     actionTypes.POST_ARTICLE,
     actionTypes.DELETE_ARTICLE,
     actionTypes.REQUEST_COMMENTS,
+    actionTypes.POST_COMMENT,
+    actionTypes.DELETE_COMMENT,
     actionTypes.REQUEST_TOPICS,
-    actionTypes.POST_TOPIC
+    actionTypes.POST_TOPIC,
+    actionTypes.UPDATE_VOTE,
 ]
 
 const apiWrapper = (method, url, data) => (axios({

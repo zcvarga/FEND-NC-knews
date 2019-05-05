@@ -1,7 +1,7 @@
 import React from 'react';
 import Article from '../containers/ArticleContainer';
 import Trending from '../../generic/components/Trending';
-import Stuff from '../../generic/components/Stuff';
+import InfoBox from '../../generic/components/InfoBox';
 
 
 const ArticleList = (props) => {
@@ -16,9 +16,8 @@ const ArticleList = (props) => {
                 return <Article key={article_id} author={author} title={title} topic={topic} id={article_id} votes={votes} comments={props.comments ? props.comments[article_id] : null} commentCount={comment_count} />
             })}
         </ul>
-        <Stuff />
+        <InfoBox />
     </div >)
-
 }
 
 export default ArticleList;

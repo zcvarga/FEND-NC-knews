@@ -4,6 +4,13 @@ import {
     postArticle
 } from '../../utils/actions';
 
+const mapStateToProps = state => ({
+    articles: state.state.get('articles') || null,
+    topics: state.state.get('topics'),
+    articlesSortingBy: state.state.get('articlesSortingBy') || '',
+    user: state.state.get('user')
+});
+
 const mapDispatchToProps = dispatch => ({
     postArticle: (articleToAdd) => {
         console.log(articleToAdd);
@@ -11,6 +18,6 @@ const mapDispatchToProps = dispatch => ({
     }
 });
 
-const NewArticleContainer = connect(null, mapDispatchToProps)(NewArticle);
+const NewArticleContainer = connect(mapStateToProps, mapDispatchToProps)(NewArticle);
 
 export default NewArticleContainer;

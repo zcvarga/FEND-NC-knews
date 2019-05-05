@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Voter from '../../generic/components/Voter';
+import Voter from '../../generic/containers/VoterContainer';
 import Avatar from '@material-ui/core/Avatar';
 import { Delete } from '@material-ui/icons';
 

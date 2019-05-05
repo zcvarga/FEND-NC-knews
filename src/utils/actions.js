@@ -7,7 +7,6 @@ const receiveArticles = (articles) => ({
 })
 
 export const getArticles = () => (dispatch, getState) => {
-    console.log(getState().state);
     dispatch({
         type: actionTypes.REQUEST_ARTICLES,
         method: 'get',
@@ -41,6 +40,24 @@ export const deleteArticle = (articleToDelete) => (dispatch, getState) => {
         if (response.status === 204) {
             dispatch(getArticles());
         }
+    });
+}
+
+const receiveSingleArticle = (data) => ({
+    type: actionTypes.RECEIVE_SINGLE_ARTICLE,
+    payload: data
+})
+
+export const getSingleArticle = (selectedArticleId) => (dispatch, getState) => {
+    dispatch({
+        type: actionTypes.REQUEST_SINGLE_ARTICLE,
+        method: 'get',
+        endpoint: `/articles/${selectedArticleId}`,
+    }).then(response => {
+      if (response.data && response.data.article) {
+          console.log(response.data)
+          dispatch(receiveSingleArticle(response.data.article));
+      }
     });
 }
 
@@ -101,3 +118,67 @@ export const getComments = (articleId) => (dispatch, getState) => {
         }
     });
 }
+
+export const deleteComment = (commentId) => (dispatch, getState) => {
+    dispatch({
+        type: actionTypes.DELETE_COMMENT,
+        method: 'delete',
+        endpoint: `/comments/${commentId}`,
+    }).then(response => {
+        if (response.status === 204) {
+            dispatch(getComments());
+        }
+    });
+}
+
+export const postComment = (articleId, newComment) => (dispatch, getState) => {
+  if (!getState().state.get('user')) {
+      window.alert('You are not logged in');
+      return;
+  }
+  dispatch({
+      type: actionTypes.POST_COMMENT,
+      method: 'post',
+      endpoint: `/articles/${articleId}/comments`,
+      data: newComment
+  }).then(response => {
+      if (response.status === 200) {
+        console.log(response);
+      }
+  });
+}
+
+export const updateVotes = (type, id, value) => (dispatch, getState) => {
+  dispatch({
+      type: actionTypes.UPDATE_VOTE,
+      method: 'patch',
+      endpoint: `/${type}/${id}`,
+      inc_votes: value
+  }).then(response => {
+      if (response.status === 200) {
+        console.log(response);
+      }
+  });
+}
+
+export const logIn = (username, password) => (dispatch) => {
+    if (!(['tickle122', 'grumpy19', 'happyamy2016', 'cooljmessy', 'weegembump', 'jessjelly'].includes(username))) {
+      window.alert('please enter existing username');
+      return;
+    }
+    if (!password) {
+      window.alert('please enter password');
+      return;
+    }
+    dispatch({
+      type: actionTypes.LOG_IN,
+      username,
+      password
+    })
+  }
+
+  export const logOut = () => (dispatch) => {
+    dispatch({
+        type: actionTypes.LOG_OUT,
+    })
+  };

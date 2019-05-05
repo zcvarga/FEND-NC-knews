@@ -3,13 +3,16 @@ import Main from '../components/Main';
 import {
     getArticles,
     getTopics,
-    setSortBy
+    setSortBy,
+    logIn,
+    logOut
 } from '../../utils/actions';
 
 const mapStateToProps = state => ({
     articles: state.state.get('articles') || null,
     topics: state.state.get('topics'),
     articlesSortingBy: state.state.get('articlesSortingBy') || '',
+    user: state.state.get('user')
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -21,9 +24,13 @@ const mapDispatchToProps = dispatch => ({
     },
     setSortBy: (value) => {
         dispatch(setSortBy(value));
-    }
+    },
+    logIn: (username, password) => {
+        dispatch(logIn(username, password));
+    },
+    logOut: () => dispatch(logOut())
 });
 
-const MenuChoiceContainer = connect(mapStateToProps, mapDispatchToProps)(Main);
+const MenuContainer = connect(mapStateToProps, mapDispatchToProps)(Main);
 
-export default MenuChoiceContainer;
+export default MenuContainer;

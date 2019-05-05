@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Link } from "@reach/router";
 import Button from '@material-ui/core/Button';
-import Voter from '../../generic/components/Voter';
+import Voter from '../../generic/containers/VoterContainer';
 import CommentList from '../../comment/containers/CommentListContainer';
-import AddComment from '../../comment/components/AddComment';
+import AddComment from '../../comment/containers/AddCommentContainer';
 
 
 class Article extends Component {
@@ -13,6 +13,10 @@ class Article extends Component {
         didDeleteorPost: false,
     }
 
+    componentDidMount() {
+      this.props.getComments(this.props.id);
+    }
+
     toggleComments() {
         this.setState({ commentsOpened: !this.state.commentsOpened })
     }
@@ -20,9 +24,7 @@ class Article extends Component {
     render() {
         const { author, title, topic, id, votes, allComments, commentCount } = this.props;
         const comments = allComments ? allComments[id] : null;
-        console.log(comments);
         return (
-
             <li key={id} className='flex-articles'>
                 <h3>Title: {title}</h3>
                 <p>Author: {author}</p>

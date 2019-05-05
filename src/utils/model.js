@@ -5,5 +5,7 @@ export const initialState = Map({
     articlesSortingBy: '',
     comments: {},
     topics: [],
-    user: null
+    user: null,
+    selectedArticleId: null,
+    singleArticle: null
 })

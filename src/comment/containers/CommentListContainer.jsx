@@ -1,21 +1,21 @@
 import { connect } from 'react-redux';
 import CommentList from '../components/CommentList';
 import {
-    getComments
+    getComments,
+    deleteComment
 } from '../../utils/actions';
 
-const mapStateToProps = (state, ownProps) => {
-    const id = ownProps.id;
-    const comments = state.getIn(['state', 'comments']);
-    return ({
-        comments: comments[id]
+const mapStateToProps = (state, ownProps) => ({
+        comments: state.state.get('comments'),
+        user: state.state.get('user')
     });
-}
 
 const mapDispatchToProps = dispatch => ({
     getComments: (articleId) => {
-        console.log(articleId);
         dispatch(getComments(articleId));
+    },
+    deleteComment: (commentId) => {
+      dispatch(deleteComment(commentId));
     }
 });
 
